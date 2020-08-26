@@ -1,0 +1,6 @@
+[submodule "krok_power_frontend"]
+	path = krok_power_frontend
+	url = https://github.com/Faraks01/krok_power_frontend.git
+[submodule "krok_power_backend"]
+	path = krok_power_backend
+	url = https://github.com/Faraks01/krok_power_backend.git
