@@ -2,10 +2,6 @@ upstream api {
     server backend:8000;
 }
 
-upstream front {
-    server host.docker.internal:3000;
-}
-
 server {
     listen 8080;
 
@@ -15,6 +11,10 @@ server {
 
     location /admin/ {
         proxy_pass http://api/admin/;
+    }
+
+    location /static/ {
+        proxy_pass http://api/static/;
     }
 
     location /static/rest_framework/ {
@@ -28,15 +28,9 @@ server {
         proxy_no_cache 1;
     }
 
-
     location / {
-        proxy_pass http://front/;
-        proxy_redirect off;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass  $http_upgrade;
+      root /var/www/krok_power_frontend;
+      try_files $uri $uri/ /index.html;
     }
 
 }
