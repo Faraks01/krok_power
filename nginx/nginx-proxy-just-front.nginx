@@ -18,8 +18,8 @@ server {
         proxy_pass http://api/admin/;
     }
 
-    location /static/ {
-        proxy_pass http://api/static/;
+    location /api/media/ {
+        alias /var/www/krok_power_backend/;
     }
 
     location /static/rest_framework/ {

@@ -15,5 +15,6 @@ services:
       - 89:8080
     volumes:
       - ./nginx/nginx-proxy-just-front.nginx:/etc/nginx/conf.d/default.conf:ro
+      - ./krok_power_backend/static:/var/www/krok_power_backend/static
     depends_on:
       - backend
