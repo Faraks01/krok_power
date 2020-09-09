@@ -1,16 +1,37 @@
-upstream api {
-    server backend:8000;
+upstream backend {
+    server django:8000;
 }
 
 server {
-    listen 8080;
+    listen 80;
+
+    server_name absolutesystems.ru www.absolutesystems.ru;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+
+    ssl_certificate /etc/letsencrypt/live/example.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.org/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    server_name absolutesystems.ru www.absolutesystems.ru;
 
     location /api/ {
-        proxy_pass http://api/api/;
+        proxy_pass http://backend/api/;
     }
 
     location /admin/ {
-        proxy_pass http://api/admin/;
+        proxy_pass http://backend/admin/;
     }
 
     location /api/static/ {
@@ -22,7 +43,7 @@ server {
     }
 
     location /static/rest_framework/ {
-        proxy_pass http://api/static/rest_framework/;
+        proxy_pass http://backend/static/rest_framework/;
     }
 
     # ignore cache frontend
@@ -33,8 +54,8 @@ server {
     }
 
     location / {
-      root /var/www/krok_power_frontend;
-      try_files $uri $uri/ /index.html;
+        root /var/www/krok_power_frontend;
+        try_files $uri $uri/ /index.html;
     }
 
 }
