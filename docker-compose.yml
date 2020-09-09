@@ -3,6 +3,7 @@ version: "3"
 services:
   django:
     build: ./krok_power_backend
+    container_name: django
     volumes:
       - ./krok_power_backend/:/krok_power_backend
     working_dir: /krok_power_backend/
@@ -14,12 +15,14 @@ services:
 
   frontend:
     image: node:10.16.3
+    container_name: frontend
     command: sh entrypoint.sh
     working_dir: /krok_power_frontend
     volumes:
       - ./krok_power_frontend/:/krok_power_frontend
 
   nginx:
+    container_name: nginx
     image: nginx:latest
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     ports:
