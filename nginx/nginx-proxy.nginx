@@ -34,7 +34,7 @@ server {
         proxy_pass http://backend/admin/;
     }
 
-    location /api/static/ {
+    location /static/ {
         alias /var/www/krok_power_backend/static/;
     }
 
