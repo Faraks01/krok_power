@@ -7,7 +7,7 @@ upstream front {
 }
 
 server {
-    listen 8080;
+    listen 80;
     client_max_body_size 100M;
 
     location /api/ {
