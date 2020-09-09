@@ -11,7 +11,7 @@ domains=(absolutesystems.ru www.absolutesystems.ru)
 rsa_key_size=4096
 data_path="./certbot"
 
-email="" # Adding a valid address is strongly recommended, please add your own email !
+email="krokodailpower@gmail.com" # Adding a valid address is strongly recommended, please add your own email !
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits, set 0 for production env.
 
 echo "List of domains(s) :"
