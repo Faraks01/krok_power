@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  backend:
+  django:
     build: ./krok_power_backend
     volumes:
       - ./krok_power_backend/:/krok_power_backend # maps host diretory to internal container directory
@@ -17,4 +17,4 @@ services:
       - ./nginx/nginx-proxy-just-front.nginx:/etc/nginx/conf.d/default.conf:ro
       - ./krok_power_backend/static:/var/www/krok_power_backend/static
     depends_on:
-      - backend
+      - django

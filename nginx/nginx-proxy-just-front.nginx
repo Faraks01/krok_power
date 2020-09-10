@@ -1,5 +1,5 @@
-upstream api {
-    server backend:8000;
+upstream backend {
+    server django:8000;
 }
 
 upstream front {
@@ -11,11 +11,15 @@ server {
     client_max_body_size 100M;
 
     location /api/ {
-        proxy_pass http://api/api/;
+        proxy_pass http://backend/api/;
     }
 
     location /admin/ {
-        proxy_pass http://api/admin/;
+        proxy_pass http://backend/admin/;
+    }
+
+    location /api/static/ {
+        alias /var/www/krok_power_backend/static/;
     }
 
     location /api/media/ {
@@ -23,7 +27,7 @@ server {
     }
 
     location /static/rest_framework/ {
-        proxy_pass http://api/static/rest_framework/;
+        proxy_pass http://backend/static/rest_framework/;
     }
 
     # ignore cache frontend
