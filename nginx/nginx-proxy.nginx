@@ -24,7 +24,51 @@ server {
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
-    server_name absolutesystems.ru www.absolutesystems.ru;
+    server_name absolutesystems.ru;
+
+    location /api/ {
+        proxy_pass http://backend/api/;
+    }
+
+    location /admin/ {
+        proxy_pass http://backend/admin/;
+    }
+
+    location /api/static/ {
+        alias /var/www/krok_power_backend/static/;
+    }
+
+    location /api/media/ {
+        alias /var/www/krok_power_backend/;
+    }
+
+    location /static/rest_framework/ {
+        proxy_pass http://backend/static/rest_framework/;
+    }
+
+    # ignore cache frontend
+    location ~* (service-worker\.js)$ {
+        add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+        expires off;
+        proxy_no_cache 1;
+    }
+
+    location / {
+        root /var/www/krok_power_frontend;
+        try_files $uri $uri/ /index.html;
+    }
+
+}
+
+server {
+    listen 443 ssl;
+
+    ssl_certificate /etc/letsencrypt/live/www.absolutesystems.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.absolutesystems.ru/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    server_name www.absolutesystems.ru;
 
     location /api/ {
         proxy_pass http://backend/api/;
